@@ -4,9 +4,10 @@
 # and sorts them into subdirectories according to the date
 # Creates subdirectories corresponding to the dates as necessary.
 
-for fil in $1/*.JPG  # Also try *.JPG
+for fil in $1/*.jpg  # Also try *.JPG
 do
-    datepath="$(identify -verbose $fil | grep DateTimeOri | awk '{print $2 }' | sed s%:%/%g)"
+
+  datepath="$(identify -verbose $fil | grep DateTimeOri | awk '{split($2, parts, ":", seps); printf("%s-%s", parts[1], parts[2])}')"
     if ! test -e "$datepath"; then
         mkdir -pv "$datepath"
     fi
